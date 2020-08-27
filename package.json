@@ -1,0 +1,54 @@
+{
+  "name": "jacdac",
+  "version": "0.1.0",
+  "description": "Connect to JACDAC devices from Jupyter",
+  "keywords": [
+    "jupyter",
+    "jupyterlab",
+    "jupyterlab-extension"
+  ],
+  "homepage": "https://github.com/microsoft/jacdac-ts",
+  "bugs": {
+    "url": "https://github.com/microsoft/jacdac-ts/issues"
+  },
+  "license": "MIT",
+  "author": "jacdac",
+  "files": [
+    "lib/**/*.{d.ts,eot,gif,html,jpg,js,js.map,json,png,svg,woff2,ttf}",
+    "style/**/*.{css,eot,gif,html,jpg,json,png,svg,woff2,ttf}"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "style": "style/index.css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/jacdac-ts.git"
+  },
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf lib tsconfig.tsbuildinfo",
+    "prepare": "jlpm run clean && jlpm run build",
+    "watch": "tsc -w"
+  },
+  "dependencies": {
+    "@jupyterlab/application": "^2.2.4",
+    "@jupyterlab/apputils": "^2.2.4",
+    "@jupyterlab/logconsole": "^2.2.2",
+    "@jupyterlab/mainmenu": "^2.2.2",
+    "@jupyterlab/outputarea": "^2.2.2",
+    "@jupyterlab/statedb": "^2.2.3",
+    "@jupyterlab/ui-components": "^2.2.2",
+    "@lumino/datagrid": "^0.14.0",
+    "@lumino/widgets": "^1.14.0"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.1",
+    "typescript": "~3.7.0"
+  },
+  "sideEffects": [
+    "style/*.css"
+  ],
+  "jupyterlab": {
+    "extension": true
+  }
+}
