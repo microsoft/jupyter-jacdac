@@ -1,6 +1,7 @@
 import { ReactWidget } from '@jupyterlab/apputils';
 
 import React, { useState } from 'react';
+import JACDACProvider from './Provider';
 
 /**
  * React component for a counter.
@@ -11,6 +12,7 @@ const CounterComponent = (): JSX.Element => {
   const [counter, setCounter] = useState(0);
 
   return (
+    <JACDACProvider>
     <div>
       <p>You clicked {counter} times!</p>
       <button
@@ -21,6 +23,7 @@ const CounterComponent = (): JSX.Element => {
         Increment
       </button>
     </div>
+    </JACDACProvider>
   );
 };
 
