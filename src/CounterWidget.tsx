@@ -1,7 +1,7 @@
 import { ReactWidget } from '@jupyterlab/apputils';
 
-import React, { useState } from 'react';
-import JACDACProvider from './Provider';
+import React, { useState, useContext } from 'react';
+import JACDACContext, { JACDACProvider } from './Provider';
 
 /**
  * React component for a counter.
@@ -10,10 +10,13 @@ import JACDACProvider from './Provider';
  */
 const CounterComponent = (): JSX.Element => {
   const [counter, setCounter] = useState(0);
+  const { connectionState } = useContext(JACDACContext)
 
   return (
     <JACDACProvider>
     <div>
+      <p>yay!</p>
+      {connectionState}
       <p>You clicked {counter} times!</p>
       <button
         onClick={(): void => {

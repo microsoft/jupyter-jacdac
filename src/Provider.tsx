@@ -1,9 +1,25 @@
 import React, { useState, useEffect } from "react";
-import { createUSBBus, BusState, CONNECTION_STATE } from "jacdac-ts"
-import JACDACContext from "jacdac-ts/dist/types/src/react/Context";
+import { createUSBBus, BusState, CONNECTION_STATE, JDBus } from "jacdac-ts"
+
+import { createContext } from "react";
+
+export interface JDContextProps {
+    bus: JDBus,
+    connectionState: BusState,
+    connectAsync: () => Promise<void>,
+    disconnectAsync: () => Promise<void>
+}
+
+const JACDACContext = createContext<JDContextProps>({
+    bus: undefined,
+    connectionState: BusState.Disconnected,
+    connectAsync: undefined,
+    disconnectAsync: undefined
+});
+JACDACContext.displayName = "jacdac";
 
 const bus = createUSBBus();
-const JACDACProvider = (props: { children?: any }) => {
+export const JACDACProvider = (props: { children?: any }) => {
     const { children } = props
     const [firstConnect, setFirstConnect] = useState(false)
     const [connectionState, setConnectionState] = useState(bus.connectionState);
@@ -29,4 +45,4 @@ const JACDACProvider = (props: { children?: any }) => {
     )
 }
 
-export default JACDACProvider;
+export default JACDACContext;

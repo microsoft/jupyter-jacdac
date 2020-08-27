@@ -40,7 +40,7 @@
     "@jupyterlab/ui-components": "^2.2.2",
     "@lumino/datagrid": "^0.14.0",
     "@lumino/widgets": "^1.14.0",
-    "jacdac-ts": "^1.4.9"
+    "jacdac-ts": "^1.4.10"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
