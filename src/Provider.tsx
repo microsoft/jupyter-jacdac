@@ -16,9 +16,9 @@ const JACDACContext = createContext<JDContextProps>({
     connectAsync: undefined,
     disconnectAsync: undefined
 });
-JACDACContext.displayName = "jacdac";
+JACDACContext.displayName = "JACDAC";
 
-const bus = createUSBBus();
+export const bus = createUSBBus();
 export const JACDACProvider = (props: { children?: any }) => {
     const { children } = props
     const [firstConnect, setFirstConnect] = useState(false)
