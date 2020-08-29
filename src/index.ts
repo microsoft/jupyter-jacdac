@@ -43,7 +43,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       const msg: ITextLog = {
         type: 'text',
         level: 'info',
-        data: text
+        data: `jacdac: ${text}`
       };      
       logger?.log(msg);
     }
@@ -85,7 +85,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // disconnect command
     {
-      const command = CommandIDs.CONNECT;
+      const command = CommandIDs.DISCONNECT;
       commands.addCommand(command, {
         label: 'Disconnect from JACDAC',
         caption: 'Disconnect from the JACDAC devices',
