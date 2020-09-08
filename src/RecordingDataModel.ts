@@ -20,6 +20,8 @@ export class RecordingDataModel extends DataModel {
     }
 
     addRow() {
+        if (!this._fields?.length)
+            return 0;
         const row = this._fields?.map(field => field.value) || [];
         this._rows.push(row)
         this.emitChanged(<DataModel.RowsChangedArgs>{ 
@@ -28,6 +30,7 @@ export class RecordingDataModel extends DataModel {
             index: this._rows.length - 1,
             span: 1
         })
+        return this._rows.length
     }
 
     rowCount(region: DataModel.RowRegion): number {

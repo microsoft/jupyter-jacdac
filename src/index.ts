@@ -6,8 +6,9 @@ import { INotebookTracker } from '@jupyterlab/notebook';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@lumino/widgets';
 import { bus } from "./Provider"
-import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST } from 'jacdac-ts';
+import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync } from 'jacdac-ts';
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
+import { RecordingDataModel } from './RecordingDataModel';
 
 const PALETTE_CATEGORY = "JACDAC"
 namespace CommandIDs {
@@ -28,9 +29,31 @@ const extension: JupyterFrontEndPlugin<void> = {
     mainMenu: IMainMenu,
     loggerRegistry: ILoggerRegistry,
     nbtracker: INotebookTracker
-    ) => {
+  ) => {
     console.log(app, palette, mainMenu)
     const { commands, shell } = app;
+
+    // data
+    const model = new RecordingDataModel()
+    {
+      // stream all reading registers at once
+      bus.on(DEVICE_CHANGE, () => {
+        const readingRegisters = 
+          bus.devices().map(device => device
+              .services().find(srv => srv.readingRegister)
+              ?.readingRegister
+          ).filter(reg => !!reg)
+        readingRegisters.map(reg => setStreamingAsync(reg.service, true))
+        const readingFields = readingRegisters?.map(reg => reg.fields)
+            ?.reduce((l,r) => l.concat(r), [])
+        model.setFields(readingFields)
+      })
+      setInterval(() => {
+        model.addRow()
+      }, 100)
+    }
+
+    // ui
     const menu = new Menu({ commands });
     menu.title.label = 'JACDAC';
     mainMenu.addMenu(menu, { rank: 80 });
@@ -44,7 +67,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         type: 'text',
         level: 'info',
         data: `jacdac: ${text}`
-      };      
+      };
       logger?.log(msg);
     }
 
@@ -64,7 +87,7 @@ const extension: JupyterFrontEndPlugin<void> = {
         execute: () => {
           //const content = new CounterWidget()
           //const widget = new MainAreaWidget<CounterWidget>({ content });
-          const widget = new RecordingDataGridPanel()
+          const widget = new RecordingDataGridPanel(model)
           widget.title.label = "JADCAC data recorder";
           shell.add(widget, 'main');
         }
