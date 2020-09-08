@@ -7,7 +7,7 @@ import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@lumino/widgets';
 import { CounterWidget } from './CounterWidget';
 import { bus } from "./Provider"
-import { PACKET_RECEIVE, CONNECTION_STATE } from 'jacdac-ts';
+import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST } from 'jacdac-ts';
 
 const PALETTE_CATEGORY = "JACDAC"
 namespace CommandIDs {
@@ -48,9 +48,12 @@ const extension: JupyterFrontEndPlugin<void> = {
       logger?.log(msg);
     }
 
-    // log packets
-    bus.on(PACKET_RECEIVE, pkt => log(pkt.toString()))
-    bus.on(CONNECTION_STATE, () => log(`bus: ${bus.connectionState}`))
+    // log packet
+    {
+      bus.on(CONNECTION_STATE, () => log(`bus: ${bus.connectionState}`))
+      bus.on(DEVICE_FOUND, (dev: JDDevice) => log(`bus: device found ${dev}`))
+      bus.on(DEVICE_LOST, (dev: JDDevice) => log(`bus: device lost ${dev}`))
+    }
 
     // open recorder
     {
