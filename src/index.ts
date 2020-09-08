@@ -1,13 +1,13 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
+import { ICommandPalette } from '@jupyterlab/apputils';
 import { ILoggerRegistry, ITextLog } from '@jupyterlab/logconsole';
 import { INotebookTracker } from '@jupyterlab/notebook';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@lumino/widgets';
-import { CounterWidget } from './CounterWidget';
 import { bus } from "./Provider"
 import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST } from 'jacdac-ts';
+import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 
 const PALETTE_CATEGORY = "JACDAC"
 namespace CommandIDs {
@@ -62,8 +62,9 @@ const extension: JupyterFrontEndPlugin<void> = {
         label: 'Record data from devices',
         caption: 'Open the JACDAC data recorder tab',
         execute: () => {
-          const content = new CounterWidget()
-          const widget = new MainAreaWidget<CounterWidget>({ content });
+          //const content = new CounterWidget()
+          //const widget = new MainAreaWidget<CounterWidget>({ content });
+          const widget = new RecordingDataGridPanel()
           widget.title.label = "JADCAC data recorder";
           shell.add(widget, 'main');
         }
