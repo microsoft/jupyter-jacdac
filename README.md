@@ -1,6 +1,6 @@
-# jacdac
+# jupyter-jacdac
 
-![Github Actions Status](https://github.com/microsoft/jacdac-ts/workflows/Build/badge.svg)
+![Github Actions Status](https://github.com/microsoft/jupyter-jacdac/workflows/Build/badge.svg)
 
 JACDAC
 
