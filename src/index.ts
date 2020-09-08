@@ -6,7 +6,7 @@ import { INotebookTracker } from '@jupyterlab/notebook';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@lumino/widgets';
 import { bus } from "./Provider"
-import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync } from 'jacdac-ts';
+import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync, DISCONNECT } from 'jacdac-ts';
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 import { RecordingDataModel } from './RecordingDataModel';
 
@@ -48,6 +48,7 @@ const extension: JupyterFrontEndPlugin<void> = {
             ?.reduce((l,r) => l.concat(r), [])
         model.setFields(readingFields)
       })
+      bus.on(DISCONNECT, () => model.setFields([]))
       setInterval(() => {
         model.addRow()
       }, 100)
