@@ -36,7 +36,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
 
     // data
-    const model = new RecordingDataModel()
+    const model = new RecordingDataModel(bus)
     {
       // stream all reading registers at once
       bus.on(DEVICE_CHANGE, () => {
