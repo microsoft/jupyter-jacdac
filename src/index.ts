@@ -15,6 +15,7 @@ namespace CommandIDs {
   export const OPEN_RECORDER = 'jacdac:open-recorder';
   export const CONNECT = 'jacdac:connect';
   export const DISCONNECT = 'jacdac:disconnect';
+  export const SAVE = 'jacdac:save'
 }
 
 /**
@@ -24,7 +25,8 @@ const extension: JupyterFrontEndPlugin<void> = {
   id: 'jacdac',
   autoStart: true,
   requires: [ICommandPalette, IMainMenu, ILoggerRegistry, INotebookTracker],
-  activate: (app: JupyterFrontEnd,
+  activate: (
+    app: JupyterFrontEnd,
     palette: ICommandPalette,
     mainMenu: IMainMenu,
     loggerRegistry: ILoggerRegistry,
@@ -38,14 +40,14 @@ const extension: JupyterFrontEndPlugin<void> = {
     {
       // stream all reading registers at once
       bus.on(DEVICE_CHANGE, () => {
-        const readingRegisters = 
+        const readingRegisters =
           bus.devices().map(device => device
-              .services().find(srv => srv.readingRegister)
-              ?.readingRegister
+            .services().find(srv => srv.readingRegister)
+            ?.readingRegister
           ).filter(reg => !!reg)
         readingRegisters.map(reg => setStreamingAsync(reg.service, true))
         const readingFields = readingRegisters?.map(reg => reg.fields)
-            ?.reduce((l,r) => l.concat(r), [])
+          ?.reduce((l, r) => l.concat(r), [])
         model.setFields(readingFields)
       })
       bus.on(DISCONNECT, () => model.setFields([]))
@@ -119,6 +121,25 @@ const extension: JupyterFrontEndPlugin<void> = {
         caption: 'Disconnect from the JACDAC devices',
         execute: () => {
           bus.disconnectAsync()
+        }
+      });
+      palette.addItem({ command, category: PALETTE_CATEGORY });
+      menu.addItem({ command });
+    }
+
+    // save
+    {
+      const command = CommandIDs.SAVE;
+      commands.addCommand(command, {
+        label: 'Save data',
+        caption: 'Save data to file',
+        execute: () => {
+          const contents = app.serviceManager.contents;
+          contents.save('./data/data.csv', {
+            type: 'file',
+            format: 'text',
+            content: model.toCSV()
+          })
         }
       });
       palette.addItem({ command, category: PALETTE_CATEGORY });

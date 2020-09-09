@@ -19,6 +19,11 @@ export class RecordingDataModel extends DataModel {
         this.emitChanged(<DataModel.ModelResetArgs>{ type: 'model-reset' })
     }
 
+    toCSV() {
+        return `test, test2, test3
+0, 1, 2`
+    }
+
     addRow() {
         if (!this._fields?.length)
             return 0;
