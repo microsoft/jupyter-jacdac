@@ -7,18 +7,27 @@ export class RecordingDataModel extends DataModel {
     // first row is always timestamp
     private _rows: number[][] = [];
     private _fields: JDField[] = [];
+    private _startTimestamp: number = 0;
 
     constructor(public readonly bus: JDBus) {
         super()
     }
 
     setFields(fields: JDField[]) {
+        const changed = this._fields.length !== fields.length 
+            || this._fields.some((field, index) => field !== fields[index]);
         this._fields = fields;
-        this._headers = fields.map(field => field.prettyName)
-        this._headers.unshift("time")
-        this._units = fields.map(field => field.unit)
-        this._units.unshift("ms")
+        if (changed)
+            this.reset()
+    }
+
+    reset() {
+        this._headers = this._fields.map(field => field.prettyName)
+        this._headers.unshift("time") // always first column of timestamps
+        this._units = this._fields.map(field => field.unit)
+        this._units.unshift("ms") // first column of timestamp
         this._rows = [];
+        this._startTimestamp = this.bus.timestamp;
         this.emitChanged(<DataModel.ModelResetArgs>{ type: 'model-reset' })
     }
 
@@ -29,16 +38,16 @@ export class RecordingDataModel extends DataModel {
             this._units,
             ...this._rows.map(row => row.map(d => d.toString()))
         ].map(line => line.join(sep))
-        .join('\n')
+            .join('\n')
     }
 
     addRow() {
         if (!this._fields?.length)
             return 0;
         const row = this._fields?.map(field => field.value) || [];
-        row.unshift(this.bus.timestamp)
+        row.unshift(this.bus.timestamp - this._startTimestamp)
         this._rows.push(row)
-        this.emitChanged(<DataModel.RowsChangedArgs>{ 
+        this.emitChanged(<DataModel.RowsChangedArgs>{
             type: 'rows-inserted',
             region: 'body',
             index: this._rows.length - 1,
