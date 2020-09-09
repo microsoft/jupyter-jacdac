@@ -6,7 +6,7 @@ import { INotebookTracker } from '@jupyterlab/notebook';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { Menu } from '@lumino/widgets';
 import { bus } from "./Provider"
-import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync, DISCONNECT } from 'jacdac-ts';
+import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync, DISCONNECT, BusState } from 'jacdac-ts';
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 import { RecordingDataModel } from './RecordingDataModel';
 import { PALETTE_CATEGORY, COMMAND_DISCONNECT, COMMAND_SAVE, COMMAND_OPEN_RECORDER, COMMAND_CONNECT } from './commands';
@@ -68,13 +68,6 @@ const extension: JupyterFrontEndPlugin<void> = {
       logger?.log(msg);
     }
 
-    // log packet
-    {
-      bus.on(CONNECTION_STATE, () => log(`bus: ${bus.connectionState}`))
-      bus.on(DEVICE_FOUND, (dev: JDDevice) => log(`bus: device found ${dev}`))
-      bus.on(DEVICE_LOST, (dev: JDDevice) => log(`bus: device lost ${dev}`))
-    }
-
     // open recorder
     {
       const command = COMMAND_OPEN_RECORDER;
@@ -99,6 +92,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       commands.addCommand(command, {
         label: 'Connect to JACDAC',
         caption: 'Connect to devices running JACDAC',
+        isEnabled: () => bus.connectionState == BusState.Disconnected,
         execute: () => {
           bus.connectAsync()
         }
@@ -113,6 +107,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       commands.addCommand(command, {
         label: 'Disconnect from JACDAC',
         caption: 'Disconnect from the JACDAC devices',
+        isEnabled: () => bus.connectionState == BusState.Connected,
         execute: () => {
           bus.disconnectAsync()
         }
@@ -138,6 +133,19 @@ const extension: JupyterFrontEndPlugin<void> = {
       });
       palette.addItem({ command, category: PALETTE_CATEGORY });
     }
+
+
+    // log packet
+    {
+      bus.on(CONNECTION_STATE, () => {
+        log(`bus: ${bus.connectionState}`)
+        commands.notifyCommandChanged(COMMAND_CONNECT)
+        commands.notifyCommandChanged(COMMAND_DISCONNECT)
+      })
+      bus.on(DEVICE_FOUND, (dev: JDDevice) => log(`bus: device found ${dev}`))
+      bus.on(DEVICE_LOST, (dev: JDDevice) => log(`bus: device lost ${dev}`))
+    }
+    
   }
 }
 
