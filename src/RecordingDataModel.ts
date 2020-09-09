@@ -1,20 +1,23 @@
 import { DataModel } from '@lumino/datagrid';
-import { JDField } from 'jacdac-ts';
+import { JDField, JDBus } from 'jacdac-ts';
 
 export class RecordingDataModel extends DataModel {
     private _headers: string[] = [];
     private _units: string[] = [] = [];
+    // first row is always timestamp
     private _rows: number[][] = [];
     private _fields: JDField[] = [];
 
-    constructor() {
+    constructor(public readonly bus: JDBus) {
         super()
     }
 
     setFields(fields: JDField[]) {
         this._fields = fields;
         this._headers = fields.map(field => field.prettyName)
+        this._headers.unshift("time")
         this._units = fields.map(field => field.unit)
+        this._units.unshift("ms")
         this._rows = [];
         this.emitChanged(<DataModel.ModelResetArgs>{ type: 'model-reset' })
     }
@@ -33,6 +36,7 @@ export class RecordingDataModel extends DataModel {
         if (!this._fields?.length)
             return 0;
         const row = this._fields?.map(field => field.value) || [];
+        row.unshift(this.bus.timestamp)
         this._rows.push(row)
         this.emitChanged(<DataModel.RowsChangedArgs>{ 
             type: 'rows-inserted',
