@@ -20,8 +20,13 @@ export class RecordingDataModel extends DataModel {
     }
 
     toCSV() {
-        return `test, test2, test3
-0, 1, 2`
+        const sep = ','
+        return [
+            this._headers,
+            this._units,
+            ...this._rows.map(row => row.map(d => d.toString()))
+        ].map(line => line.join(sep))
+        .join('\n')
     }
 
     addRow() {
