@@ -3,3 +3,4 @@ lib
 *.tsbuildinfo
 .ipynb_checkpoints
 *.ipynb
+data
