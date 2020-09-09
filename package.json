@@ -7,9 +7,9 @@
     "jupyterlab",
     "jupyterlab-extension"
   ],
-  "homepage": "https://github.com/microsoft/jacdac-ts",
+  "homepage": "https://github.com/microsoft/jupyter-jacdac",
   "bugs": {
-    "url": "https://github.com/microsoft/jacdac-ts/issues"
+    "url": "https://github.com/microsoft/jupyter-jacdac/issues"
   },
   "license": "MIT",
   "author": "jacdac",
@@ -22,7 +22,7 @@
   "style": "style/index.css",
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/jacdac-ts.git"
+    "url": "https://github.com/microsoft/jupyter-jacdac.git"
   },
   "scripts": {
     "build": "tsc",
@@ -31,12 +31,12 @@
     "watch": "tsc -w"
   },
   "dependencies": {
-    "@jupyterlab/application": "^2.2.4",
-    "@jupyterlab/apputils": "^2.2.4",
-    "@jupyterlab/docregistry": "^2.2.2",
+    "@jupyterlab/application": "^2.1.5",
+    "@jupyterlab/apputils": "^2.1.5",
+    "@jupyterlab/docregistry": "^2.1.5",
     "@jupyterlab/logconsole": "^2.1.5",
     "@jupyterlab/mainmenu": "^2.1.5",
-    "@jupyterlab/notebook": "^2.2.5",
+    "@jupyterlab/notebook": "^2.1.5",
     "@jupyterlab/outputarea": "^2.1.5",
     "@jupyterlab/statedb": "^2.1.5",
     "@jupyterlab/ui-components": "^2.1.5",

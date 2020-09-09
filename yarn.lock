@@ -110,17 +110,17 @@
     "@lumino/disposable" "^1.3.5"
     "@lumino/signaling" "^1.3.5"
 
-"@jupyterlab/cells@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/cells/-/cells-2.2.4.tgz#8b41d4bb453807c15a470cbe6b5c1e23ed9f074a"
-  integrity sha512-C3MXu8QOVoYr/VlYGM5ACNqr0CoCOIzsxrI9RmWIlEO7ousU4OKxyOaJyGCMwczaVsTf2EDr8GtQQ6I7wJxqbw==
+"@jupyterlab/cells@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/cells/-/cells-2.2.5.tgz#d9f202e00b2a5b247c187cb6d260eb3ec317c7fd"
+  integrity sha512-A6FpkU1X2mIQXyoIg5uHg8AZRBD2NQM54uMIF8BpjaAjc5X8667ZJ2RDen2iJem1bye7QtqEGC6qzYdLpjjowA==
   dependencies:
     "@jupyterlab/apputils" "^2.2.4"
     "@jupyterlab/attachments" "^2.2.2"
     "@jupyterlab/codeeditor" "^2.2.3"
     "@jupyterlab/codemirror" "^2.2.2"
     "@jupyterlab/coreutils" "^4.2.3"
-    "@jupyterlab/filebrowser" "^2.2.2"
+    "@jupyterlab/filebrowser" "^2.2.3"
     "@jupyterlab/nbformat" "^2.2.3"
     "@jupyterlab/observables" "^3.2.3"
     "@jupyterlab/outputarea" "^2.2.2"
@@ -205,7 +205,7 @@
     "@lumino/widgets" "^1.11.1"
     react "~16.9.0"
 
-"@jupyterlab/docregistry@^2.2.2":
+"@jupyterlab/docregistry@^2.1.5", "@jupyterlab/docregistry@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@jupyterlab/docregistry/-/docregistry-2.2.2.tgz#68fe4932a44e95fb7d8f9c51646e93bc244d9e01"
   integrity sha512-k2Vr4g2IStfzcoqz/rMx4lPN/nHylfx24vQbw4MrATKqhkMPhZlngNHSDZsL0u5+CGQco/+d6/xHCGI/OqMgSA==
@@ -226,10 +226,10 @@
     "@lumino/signaling" "^1.3.5"
     "@lumino/widgets" "^1.11.1"
 
-"@jupyterlab/filebrowser@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/filebrowser/-/filebrowser-2.2.2.tgz#b8021316568186a4f5f095262fd2aacffaa37c63"
-  integrity sha512-5zd4OzTGumEMrTcVRZ0nQHPAGqhm5pKwSlonAm95Ni1lEB9MdPPKQDM8hgyEtWvhkwM/qvxQm6+/iYMx8aP3iw==
+"@jupyterlab/filebrowser@^2.2.3":
+  version "2.2.3"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/filebrowser/-/filebrowser-2.2.3.tgz#642539af29cae490d1954f17cf7c29ebb7f218b3"
+  integrity sha512-TiTdgN68YBkWcPiQF69lJlk/XRyI5IhS1A9MHliz2/uaKq9Z5Y4HNTiUP/RtnYYHf8/buozjMJ66Y24BzjbPZQ==
   dependencies:
     "@jupyterlab/apputils" "^2.2.4"
     "@jupyterlab/coreutils" "^4.2.3"
@@ -288,12 +288,12 @@
     "@lumino/coreutils" "^1.4.2"
 
 "@jupyterlab/notebook@^2.1.5":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook/-/notebook-2.2.4.tgz#61a84cd2e3d6ed19ae9b849a994b4cb3749a1d14"
-  integrity sha512-Lv+YVFYPcTZ+1Mtzcv+NoBAdPmEOrHD07dv2Go4hBqP0GFsZcN9QNuU5cJDsH+XZ+lDSBfBylWRy4SUP5pTg9A==
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@jupyterlab/notebook/-/notebook-2.2.5.tgz#deba051f631fb599b3091aef292106b91a95d3ee"
+  integrity sha512-SLrvaLeZz7tkQ/RPSblpUcCINxC4hmdVgUl4ddOf5WnjeBRQSKN9X+FklwMQRX6GZSk7YIeaO16X035Vhtuz5g==
   dependencies:
     "@jupyterlab/apputils" "^2.2.4"
-    "@jupyterlab/cells" "^2.2.4"
+    "@jupyterlab/cells" "^2.2.5"
     "@jupyterlab/codeeditor" "^2.2.3"
     "@jupyterlab/coreutils" "^4.2.3"
     "@jupyterlab/docregistry" "^2.2.2"
@@ -590,9 +590,9 @@
   integrity sha512-kSkVAvWmMZiCYtvqjqQEwOmvKwcH+V4uiv3qPQ8pAh1Xl39xggGEo8gHUqV4waYGHezdFw0rKBR8Jt0CrQSDZA==
 
 "@types/node@^10.11.0":
-  version "10.17.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.28.tgz#0e36d718a29355ee51cec83b42d921299200f6d9"
-  integrity sha512-dzjES1Egb4c1a89C7lKwQh8pwjYmlOAG9dW1pBgxEk57tMrLnssOfEthz8kdkNaBd7lIqQx7APm5+mZ619IiCQ==
+  version "10.17.30"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.30.tgz#20556a0d7f62b83e163973a6cd640af636d3dd3b"
+  integrity sha512-euU8QLX0ipj+5mOYa4ZqZoTv+53BY7yTg9I2ZIhDXgiI3M+0n4mdAt9TQCuvxVAgU179g8OsRLaBt0qEi0T6xA==
 
 "@types/prop-types@*":
   version "15.7.3"
@@ -600,9 +600,9 @@
   integrity sha512-KfRL3PuHmqQLOG+2tGpRO26Ctg+Cq1E01D2DMriKEATHgWLfeNDmq9e29Q9WIky0dQ3NPkd1mzYH8Lm936Z9qw==
 
 "@types/react@~16.9.16":
-  version "16.9.47"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.47.tgz#fb092936f0b56425f874d0ff1b08051fdf70c1ba"
-  integrity sha512-dAJO4VbrjYqTUwFiQqAKjLyHHl4RSTNnRyPdX3p16MPbDKvow51wxATUPxoe2QsiXNMEYrOjc2S6s92VjG+1VQ==
+  version "16.9.49"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.49.tgz#09db021cf8089aba0cdb12a49f8021a69cce4872"
+  integrity sha512-DtLFjSj0OYAdVLBbyjhuV9CdGVHCkHn2R+xr3XkBvK2rS1Y1tkc14XSGjYgm5Fjjr90AxH9tiSzc1pCFMGO06g==
   dependencies:
     "@types/prop-types" "*"
     csstype "^3.0.2"
@@ -929,10 +929,10 @@ is-symbol@^1.0.2:
   dependencies:
     has-symbols "^1.0.1"
 
-jacdac-ts@^1.4.13:
-  version "1.4.13"
-  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.4.13.tgz#0803aedef5fae9fab5285e404b5e7156c6dee1cf"
-  integrity sha512-vpGULeQtvnKDR2izTJ14KTdT/Kevps7BsVQHQCpP6Pta5XPWcQOZOkLvwwHeUswETv0xtvfjuDeZKjBx3Kno0w==
+jacdac-ts@^1.4.15:
+  version "1.4.15"
+  resolved "https://registry.yarnpkg.com/jacdac-ts/-/jacdac-ts-1.4.15.tgz#5789d310b2ee8601c1cf747b123274e3c753013e"
+  integrity sha512-lXz6j7+4VALHWmkCCAlWOrqvcNqfTjcw4tUr9YeMy/o9agGTh5lNuC4W6BCWSP6omtemdXJT2iM1jaNAuTOk+g==
   dependencies:
     "@types/node" "^10.11.0"
     "@types/w3c-web-usb" "^1.0.4"
@@ -1015,9 +1015,9 @@ moment@^2.24.0:
   integrity sha512-al0MUK7cpIcglMv3YF13qSgdAIqxHTO7brRtaz3DlSULbqfazqkc5kEjNrLDOM7fsjshoFIihnU8snrP7zUvhQ==
 
 node-fetch@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 normalize.css@^8.0.1:
   version "8.0.1"
@@ -1306,9 +1306,9 @@ typestyle@^2.0.4:
     free-style "3.1.0"
 
 uri-js@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.2.2.tgz#94c540e1ff772956e2299507c010aea6c8838eb0"
-  integrity sha512-KY9Frmirql91X2Qgjry0Wd4Y+YTdrdZheS8TFwvkbLWf/G5KNJDCh6pKL5OZctEW4+0Baa5idK2ZQuELRwPznQ==
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/uri-js/-/uri-js-4.4.0.tgz#aa714261de793e8a82347a7bcc9ce74e86f28602"
+  integrity sha512-B0yRTzYdUCCn9n+F4+Gh4yIDtMQcaJsmYBDsTSG8g/OejKBodLQ2IHfN3bM7jUsRXndopT7OIXWdYqc1fjmV6g==
   dependencies:
     punycode "^2.1.0"
 

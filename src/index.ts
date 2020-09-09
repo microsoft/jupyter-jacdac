@@ -9,14 +9,8 @@ import { bus } from "./Provider"
 import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync, DISCONNECT } from 'jacdac-ts';
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 import { RecordingDataModel } from './RecordingDataModel';
+import { PALETTE_CATEGORY, COMMAND_DISCONNECT, COMMAND_SAVE, COMMAND_OPEN_RECORDER, COMMAND_CONNECT } from './commands';
 
-const PALETTE_CATEGORY = "JACDAC"
-namespace CommandIDs {
-  export const OPEN_RECORDER = 'jacdac:open-recorder';
-  export const CONNECT = 'jacdac:connect';
-  export const DISCONNECT = 'jacdac:disconnect';
-  export const SAVE = 'jacdac:save'
-}
 
 /**
  * Initialization data for the jacdac extension.
@@ -83,14 +77,14 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // open recorder
     {
-      const command = CommandIDs.OPEN_RECORDER;
+      const command = COMMAND_OPEN_RECORDER;
       commands.addCommand(command, {
         label: 'Record data from devices',
         caption: 'Open the JACDAC data recorder tab',
         execute: () => {
           //const content = new CounterWidget()
           //const widget = new MainAreaWidget<CounterWidget>({ content });
-          const widget = new RecordingDataGridPanel(model)
+          const widget = new RecordingDataGridPanel(commands, model)
           widget.title.label = "JADCAC data recorder";
           shell.add(widget, 'main');
         }
@@ -101,7 +95,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // connect command
     {
-      const command = CommandIDs.CONNECT;
+      const command = COMMAND_CONNECT;
       commands.addCommand(command, {
         label: 'Connect to JACDAC',
         caption: 'Connect to devices running JACDAC',
@@ -115,7 +109,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // disconnect command
     {
-      const command = CommandIDs.DISCONNECT;
+      const command = COMMAND_DISCONNECT;
       commands.addCommand(command, {
         label: 'Disconnect from JACDAC',
         caption: 'Disconnect from the JACDAC devices',
@@ -129,7 +123,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // save
     {
-      const command = CommandIDs.SAVE;
+      const command = COMMAND_SAVE;
       commands.addCommand(command, {
         label: 'Save data',
         caption: 'Save data to file',
@@ -143,7 +137,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         }
       });
       palette.addItem({ command, category: PALETTE_CATEGORY });
-      menu.addItem({ command });
     }
   }
 }
