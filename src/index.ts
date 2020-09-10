@@ -90,7 +90,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     {
       const command = COMMAND_CONNECT;
       commands.addCommand(command, {
-        label: 'Connect to JACDAC',
+        label: 'Connect',
         caption: 'Connect to devices running JACDAC',
         isEnabled: () => bus.connectionState == BusState.Disconnected,
         execute: () => {
@@ -105,7 +105,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     {
       const command = COMMAND_DISCONNECT;
       commands.addCommand(command, {
-        label: 'Disconnect from JACDAC',
+        label: 'Disconnect',
         caption: 'Disconnect from the JACDAC devices',
         isEnabled: () => bus.connectionState == BusState.Connected,
         execute: () => {
