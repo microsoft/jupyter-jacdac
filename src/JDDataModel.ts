@@ -44,7 +44,7 @@ export class JDDataModel extends DataModel {
             ...this._rows.map(row => row.map(d => d === undefined ? "" : d.toString()))
         ].map(line => line.join(sep))
             .join('\n')
-        if (r)
+        if (clear)
             this.clearRows()
         return r;
     }
