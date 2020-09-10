@@ -31,6 +31,9 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // data
     const model = new RecordingDataModel(bus)
+    const widget = new RecordingDataGridPanel(commands, model)
+    widget.title.label = "JADCAC recorder";
+
     {
       // stream all reading registers at once
       bus.on(DEVICE_CHANGE, () => {
@@ -77,9 +80,12 @@ const extension: JupyterFrontEndPlugin<void> = {
         execute: () => {
           //const content = new CounterWidget()
           //const widget = new MainAreaWidget<CounterWidget>({ content });
-          const widget = new RecordingDataGridPanel(commands, model)
-          widget.title.label = "JADCAC data recorder";
-          shell.add(widget, 'main');
+          if (!widget.isAttached) {
+            // Attach the widget to the main work area if it's not there
+            shell.add(widget, 'main');
+          }
+          // Activate the widget
+          shell.activateById(widget.id);
         }
       });
       palette.addItem({ command, category: PALETTE_CATEGORY });
@@ -145,7 +151,7 @@ const extension: JupyterFrontEndPlugin<void> = {
       bus.on(DEVICE_FOUND, (dev: JDDevice) => log(`bus: device found ${dev}`))
       bus.on(DEVICE_LOST, (dev: JDDevice) => log(`bus: device lost ${dev}`))
     }
-    
+
   }
 }
 
