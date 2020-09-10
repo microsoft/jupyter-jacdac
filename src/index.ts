@@ -10,8 +10,9 @@ import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, s
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 import { RecordingDataModel } from './RecordingDataModel';
 import { PALETTE_CATEGORY, COMMAND_DISCONNECT, COMMAND_SAVE, COMMAND_OPEN_RECORDER, COMMAND_CONNECT } from './commands';
-import { NotebookExtension } from './NotebookExtension';
-
+import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
+import { toArray } from '@lumino/algorithm';
+import { Contents } from '@jupyterlab/services'
 
 /**
  * Initialization data for the jacdac extension.
@@ -19,23 +20,24 @@ import { NotebookExtension } from './NotebookExtension';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jacdac',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, ILoggerRegistry, INotebookTracker],
+  requires: [ICommandPalette, IMainMenu, ILoggerRegistry, INotebookTracker, IFileBrowserFactory],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     mainMenu: IMainMenu,
     loggerRegistry: ILoggerRegistry,
-    nbtracker: INotebookTracker
+    nbtracker: INotebookTracker,
+    fileBrowserFactory: IFileBrowserFactory
   ) => {
     console.log(app, palette, mainMenu)
-    const { commands, shell, docRegistry } = app;
+    const { commands, shell } = app;
 
     // data
     const model = new RecordingDataModel(bus)
     const widget = new RecordingDataGridPanel(commands, model)
 
     // notebook extensions
-    docRegistry.addWidgetExtension('Notebook', new NotebookExtension(commands))
+    //docRegistry.addWidgetExtension('Notebook', new NotebookExtension(commands))
 
     // JACDAC events
     {
@@ -133,15 +135,18 @@ const extension: JupyterFrontEndPlugin<void> = {
         label: 'Save data',
         caption: 'Save data to file',
         execute: () => {
+          const fileName = findUniqueFileName(fileBrowserFactory);
           const contents = app.serviceManager.contents;
-          contents.save('./data/data.csv', {
+          contents.save(fileName, {
             type: 'file',
             format: 'text',
             content: model.toCSV()
           })
+          fileBrowserFactory.defaultBrowser.model.refresh()
         }
       });
       palette.addItem({ command, category: PALETTE_CATEGORY });
+      menu.addItem({ command });
     }
 
 
@@ -157,6 +162,25 @@ const extension: JupyterFrontEndPlugin<void> = {
     }
 
   }
+}
+
+// walks the current folder in the filebrowser for a unique new file name
+function findUniqueFileName(fileBrowserFactory: IFileBrowserFactory, label: string = "data") {
+  const fileBrowserModel = fileBrowserFactory.defaultBrowser.model;
+  const fileModels = toArray(fileBrowserModel.items());
+  const fileModelMap: { [path: string]: Contents.IModel; } = {};
+  for (const fileModel of fileModels) {
+    fileModelMap[fileModel.path] = fileModel;
+  }
+
+  let fileNameIndex = 0;
+  let fileName = '';
+  do {
+    const nb = fileNameIndex.toString().padStart(3,"0")
+    fileName = `${fileBrowserModel.path}/${label}-${nb}.csv`;
+    fileNameIndex++
+  } while (!!fileModelMap[fileName]);
+  return fileName;
 }
 
 export default extension;

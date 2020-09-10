@@ -36,7 +36,7 @@ export class RecordingDataModel extends DataModel {
         return [
             this._headers,
             this._units,
-            ...this._rows.map(row => row.map(d => d.toString()))
+            ...this._rows.map(row => row.map(d => d === undefined ? "" : d.toString()))
         ].map(line => line.join(sep))
             .join('\n')
     }
