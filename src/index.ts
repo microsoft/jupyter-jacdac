@@ -10,6 +10,7 @@ import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, s
 import { RecordingDataGridPanel } from './RecordingDataGridPanel';
 import { RecordingDataModel } from './RecordingDataModel';
 import { PALETTE_CATEGORY, COMMAND_DISCONNECT, COMMAND_SAVE, COMMAND_OPEN_RECORDER, COMMAND_CONNECT } from './commands';
+import { NotebookExtension } from './NotebookExtension';
 
 
 /**
@@ -27,13 +28,16 @@ const extension: JupyterFrontEndPlugin<void> = {
     nbtracker: INotebookTracker
   ) => {
     console.log(app, palette, mainMenu)
-    const { commands, shell } = app;
+    const { commands, shell, docRegistry } = app;
 
     // data
     const model = new RecordingDataModel(bus)
     const widget = new RecordingDataGridPanel(commands, model)
-    widget.title.label = "JADCAC recorder";
 
+    // notebook extensions
+    docRegistry.addWidgetExtension('Notebook', new NotebookExtension(commands))
+
+    // JACDAC events
     {
       // stream all reading registers at once
       bus.on(DEVICE_CHANGE, () => {

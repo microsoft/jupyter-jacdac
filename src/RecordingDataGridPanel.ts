@@ -10,13 +10,13 @@ export class RecordingDataGridPanel extends StackedPanel {
   private readonly toolbar: Toolbar<Widget>;
 
   constructor(
-    commands: CommandRegistry,
+    public readonly commands: CommandRegistry,
     public readonly model: RecordingDataModel
     ) {
     super();
-    this.addClass('jd-recording-datagrid');
-    this.id = 'jd-recording-datagrid';
-    this.title.label = 'JACDAC Recorded data';
+    this.addClass('jd-recorder');
+    this.id = 'jd-recorder';
+    this.title.label = "JADCAC recorder";
     this.title.closable = true;
 
     this.toolbar = new Toolbar<Widget>()
