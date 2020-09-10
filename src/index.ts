@@ -1,18 +1,17 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
 import { ILoggerRegistry, ITextLog } from '@jupyterlab/logconsole';
 import { INotebookTracker } from '@jupyterlab/notebook';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
-import { Menu } from '@lumino/widgets';
-import { bus } from "./Provider"
+import { bus, model } from "./JACDACProvider"
 import { DEVICE_FOUND, CONNECTION_STATE, JDDevice, DEVICE_LOST, DEVICE_CHANGE, setStreamingAsync, DISCONNECT, BusState } from 'jacdac-ts';
-import { RecordingDataGridPanel } from './RecordingDataGridPanel';
-import { RecordingDataModel } from './RecordingDataModel';
 import { PALETTE_CATEGORY, COMMAND_DISCONNECT, COMMAND_SAVE, COMMAND_OPEN_RECORDER, COMMAND_CONNECT } from './commands';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { toArray } from '@lumino/algorithm';
 import { Contents } from '@jupyterlab/services'
+import { Menu } from '@lumino/widgets';
+import { RecorderWidget } from './Widget';
 
 /**
  * Initialization data for the jacdac extension.
@@ -33,11 +32,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { commands, shell } = app;
 
     // data
-    const model = new RecordingDataModel(bus)
-    const widget = new RecordingDataGridPanel(commands, model)
-
-    // notebook extensions
-    //docRegistry.addWidgetExtension('Notebook', new NotebookExtension(commands))
+    const content = new RecorderWidget(commands)
+    const widget = new MainAreaWidget<RecorderWidget>({ content });
 
     // JACDAC events
     {
@@ -84,8 +80,6 @@ const extension: JupyterFrontEndPlugin<void> = {
         label: 'Record data from devices',
         caption: 'Open the JACDAC data recorder tab',
         execute: () => {
-          //const content = new CounterWidget()
-          //const widget = new MainAreaWidget<CounterWidget>({ content });
           if (!widget.isAttached) {
             // Attach the widget to the main work area if it's not there
             shell.add(widget, 'main');
@@ -140,7 +134,7 @@ const extension: JupyterFrontEndPlugin<void> = {
           contents.save(fileName, {
             type: 'file',
             format: 'text',
-            content: model.toCSV()
+            content: model.toCSV(true)
           })
           fileBrowserFactory.defaultBrowser.model.refresh()
         }

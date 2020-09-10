@@ -1,7 +1,7 @@
 import { DataModel } from '@lumino/datagrid';
 import { JDField, JDBus } from 'jacdac-ts';
 
-export class RecordingDataModel extends DataModel {
+export class JDDataModel extends DataModel {
     private _headers: string[] = [];
     private _units: string[] = [] = [];
     // first row is always timestamp
@@ -31,14 +31,22 @@ export class RecordingDataModel extends DataModel {
         this.emitChanged(<DataModel.ModelResetArgs>{ type: 'model-reset' })
     }
 
-    toCSV() {
+    clearRows() {
+        this._rows = []
+        this._startTimestamp = this.bus.timestamp
+    }
+
+    toCSV(clear = false) {
         const sep = ','
-        return [
+        const r = [
             this._headers,
             this._units,
             ...this._rows.map(row => row.map(d => d === undefined ? "" : d.toString()))
         ].map(line => line.join(sep))
             .join('\n')
+        if (r)
+            this.clearRows()
+        return r;
     }
 
     addRow() {
