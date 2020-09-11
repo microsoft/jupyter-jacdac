@@ -2,8 +2,8 @@
 
 ![Github Actions Status](https://github.com/microsoft/jupyter-jacdac/workflows/Build/badge.svg)
 
-JACDAC
-
+This project contains a [JACDAC](https://microsoft.github.io/jacdac-ts) extension for [Jupyter Lab](https://jupyter.org/).
+The extension allows to collect data from embedded devices and push ML model back into them.
 
 ## Requirements
 
@@ -16,6 +16,8 @@ jupyter labextension install jacdac
 ```
 
 ## Contributing
+
+The extension essentially loads https://microsoft.github.io/jacdac-ts and interacts with this web site via IFrame messages. The UI integration into JupyterLab is kept to an absolute minimum.
 
 ### Install
 
