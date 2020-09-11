@@ -1,7 +1,5 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
 import { ICommandPalette } from '@jupyterlab/apputils';
-import { ILoggerRegistry } from '@jupyterlab/logconsole';
-import { INotebookTracker } from '@jupyterlab/notebook';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
@@ -17,13 +15,11 @@ export const PALETTE_CATEGORY = "JACDAC"
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jacdac',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, ILoggerRegistry, INotebookTracker, IFileBrowserFactory],
+  requires: [ICommandPalette, IMainMenu, IFileBrowserFactory],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     mainMenu: IMainMenu,
-    loggerRegistry: ILoggerRegistry,
-    nbtracker: INotebookTracker,
     fileBrowserFactory: IFileBrowserFactory
   ) => {
     console.log(app, palette, mainMenu)
@@ -39,21 +35,6 @@ const extension: JupyterFrontEndPlugin<void> = {
     const menu = new Menu({ commands });
     menu.title.label = 'JACDAC';
     mainMenu.addMenu(menu, { rank: 80 });
-
-    // helpers
-    /*
-    const log = (text: string) => {
-      const logger = loggerRegistry.getLogger(
-        nbtracker.currentWidget?.context.path
-      );
-      const msg: ITextLog = {
-        type: 'text',
-        level: 'info',
-        data: `jacdac: ${text}`
-      };
-      logger?.log(msg);
-    }
-    */
 
     // open recorder
     {

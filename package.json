@@ -89,24 +89,17 @@
     ]
   },
   "dependencies": {
-    "@jupyterlab/application": "^2.1.5",
-    "@jupyterlab/apputils": "^2.1.5",
-    "@jupyterlab/docregistry": "^2.1.5",
-    "@jupyterlab/logconsole": "^2.1.5",
-    "@jupyterlab/mainmenu": "^2.1.5",
-    "@jupyterlab/notebook": "^2.1.5",
-    "@jupyterlab/outputarea": "^2.1.5",
-    "@jupyterlab/statedb": "^2.1.5",
-    "@jupyterlab/ui-components": "^2.1.5",
-    "@lumino/datagrid": "^0.14.0",
-    "@lumino/disposable": "^1.4.3",
-    "@lumino/widgets": "^1.14.0",
-    "@semantic-release/git": "^9.0.0",
-    "semantic-release": "^17.1.1"
+    "@jupyterlab/application": "^2.0.2",
+    "@jupyterlab/apputils": "^2.0.2",
+    "@jupyterlab/mainmenu": "^2.0.2",
+    "@jupyterlab/notebook": "^2.0.2",
+    "@lumino/widgets": "^1.14.0"
   },
   "devDependencies": {
     "rimraf": "^2.6.1",
-    "typescript": "~3.7.0"
+    "typescript": "~3.7.0",
+    "@semantic-release/git": "^9.0.0",
+    "semantic-release": "^17.1.1"
   },
   "sideEffects": [
     "style/*.css"
