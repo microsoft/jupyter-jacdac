@@ -21,7 +21,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - uses: s-weigand/setup-conda@v1
       - run: conda --version
-      - run: which python          
+      - run: which python   
+      - run: conda install -c conda-forge jupyterlab       
       - run: jlpm
       - run: jlpm build
       - run: npx semantic-release
