@@ -27,9 +27,13 @@ const extension: JupyterFrontEndPlugin<void> = {
     fileBrowserFactory: IFileBrowserFactory
   ) => {
     console.log(app, palette, mainMenu)
-    const { commands, shell } = app;
+    const { commands, shell, serviceManager } = app;
+    const { contents } = serviceManager
 
-    const widget = new JACDACWidget();
+    const widget = new JACDACWidget({
+      contents,
+      fileBrowserFactory
+    });
 
     // ui
     const menu = new Menu({ commands });
@@ -71,26 +75,5 @@ const extension: JupyterFrontEndPlugin<void> = {
     }
   }
 }
-
-// walks the current folder in the filebrowser for a unique new file name
-/*
-function findUniqueFileName(fileBrowserFactory: IFileBrowserFactory, label: string = "data") {
-  const fileBrowserModel = fileBrowserFactory.defaultBrowser.model;
-  const fileModels = toArray(fileBrowserModel.items());
-  const fileModelMap: { [path: string]: Contents.IModel; } = {};
-  for (const fileModel of fileModels) {
-    fileModelMap[fileModel.path] = fileModel;
-  }
-
-  let fileNameIndex = 0;
-  let fileName = '';
-  do {
-    const nb = fileNameIndex.toString().padStart(3,"0")
-    fileName = `${fileBrowserModel.path}/${label}-${nb}.csv`;
-    fileNameIndex++
-  } while (!!fileModelMap[fileName]);
-  return fileName;
-}
-*/
 
 export default extension;
