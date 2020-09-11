@@ -1,7 +1,7 @@
 {
   "name": "jacdac",
   "version": "0.1.0",
-  "description": "Connect to JACDAC devices from Jupyter",
+  "description": "Connect to JACDAC devices from JupyterLab",
   "keywords": [
     "jupyter",
     "jupyterlab",
