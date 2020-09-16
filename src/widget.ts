@@ -4,9 +4,10 @@ import { Contents, ContentsManager } from '@jupyterlab/services';
 import { toArray } from '@lumino/algorithm';
 import { PathExt } from '@jupyterlab/coreutils'
 
+/** JACDAC IFrame Message protocol */
 export interface IMessage {
     id?: string;
-    source?: 'jacdac' | 'host',
+    source: 'jacdac',
     type: string;
     data: any;
     requireAck?: boolean;
@@ -20,12 +21,25 @@ export interface IAckMessage extends IMessage {
         error?: any;
     }
 }
+export type LogLevel = 'error' | 'warn' | 'log' | 'info' | 'debug'
+export interface ILogMessage extends IMessage {
+    type: 'log',
+    data: {
+        level?: LogLevel,
+        message: any
+    }
+}
+export interface IThemeMessage extends IMessage {
+    type: 'theme',
+    data: {
+        type: 'light' | 'dark'
+    }
+}
+export type Status = 'unknown' | 'ready'
 export interface IStatusMessage extends IMessage {
     type: 'status',
     data: {
-        status: 'ready' | 'error',
-        data?: any;
-        error?: any;
+        status: Status,
     }
 }
 export interface ISaveTextMessage extends IMessage {
@@ -35,6 +49,7 @@ export interface ISaveTextMessage extends IMessage {
         data: string;
     }
 }
+/** End JACDAC protocol */
 
 export declare namespace JACDACWidget {
     interface IOptions {
@@ -60,10 +75,11 @@ export class JACDACWidget extends IFrame {
             this.options.url = 'http://localhost:8000'
 
         this.options.url = PathExt.removeSlash(this.options.url)
-        this.url = `${this.options.url}/tools/collector`
 
         this.handleMessage = this.handleMessage.bind(this)
         window.addEventListener('message', this.handleMessage, false)
+
+        this.url = `${this.options.url}/tools/collector`
     }
 
     dispose() {
@@ -131,9 +147,9 @@ export class JACDACWidget extends IFrame {
         } as IAckMessage)
     }
 
-    private postMessage(msg: IMessage) {
+    postMessage(msg: IMessage) {
         msg.id = "jl:" + Math.random()
-        msg.source = "host"
+        msg.source = "jacdac"
         const url = new URL(this.options.url)
         const target = `${url.protocol}${url.host}`
         this.iframe.contentWindow.postMessage(msg, target)

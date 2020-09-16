@@ -1,10 +1,10 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
-import { ICommandPalette } from '@jupyterlab/apputils';
+import { ICommandPalette, IThemeManager } from '@jupyterlab/apputils';
 
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { Menu } from '@lumino/widgets';
-import { JACDACWidget } from './widget';
+import { IThemeMessage, JACDACWidget } from './widget';
 
 export const COMMAND_OPEN_RECORDER = 'jacdac:open-recorder';
 export const PALETTE_CATEGORY = "JACDAC"
@@ -15,23 +15,37 @@ export const PALETTE_CATEGORY = "JACDAC"
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jacdac',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, IFileBrowserFactory],
+  requires: [ICommandPalette, IMainMenu, IFileBrowserFactory, IThemeManager],
   activate: (
     app: JupyterFrontEnd,
     palette: ICommandPalette,
     mainMenu: IMainMenu,
-    fileBrowserFactory: IFileBrowserFactory
+    fileBrowserFactory: IFileBrowserFactory,
+    themeManager: IThemeManager
   ) => {
-    console.log(app, palette, mainMenu)
     const { commands, shell, serviceManager } = app;
     const { contents } = serviceManager
 
+    // iframe host
     const widget = new JACDACWidget({
       contents,
       fileBrowserFactory
     });
 
-    // ui
+    // dark mode
+    const updateDarkMode = () => {
+      const light = !!themeManager?.isLight(themeManager.theme)
+      widget.postMessage(<IThemeMessage>{
+        type: 'theme',
+        data: {
+          type: light ? 'light' : 'dark'
+        }
+      })
+    }
+    themeManager?.themeChanged.connect(updateDarkMode)
+    updateDarkMode();
+
+    // menu
     const menu = new Menu({ commands });
     menu.title.label = 'JACDAC';
     mainMenu.addMenu(menu, { rank: 80 });
