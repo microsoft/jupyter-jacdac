@@ -1,0 +1,7 @@
+set -ex
+
+# Import jacdac
+jupyter labextension install jacdac
+
+# Setup a workspace
+jupyter lab workspaces import binder/workspace.json
