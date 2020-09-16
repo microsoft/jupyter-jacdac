@@ -12,7 +12,13 @@ The extension allows to collect data from embedded devices and push AI model bac
 ## Install
 
 ```bash
-jupyter labextension install jacdac
+jupyter labextension install jupyter-jacdac
+```
+
+### Uninstall
+
+```bash
+jupyter labextension uninstall jupyter-jacdac
 ```
 
 ## Contributing
@@ -47,12 +53,6 @@ You can watch the source directory and run JupyterLab in watch mode to watch for
 jlpm watch
 # Run jupyterlab in watch mode in one terminal tab
 jupyter lab --watch
-```
-
-### Uninstall
-
-```bash
-jupyter labextension uninstall jacdac
 ```
 
 # Contributing
