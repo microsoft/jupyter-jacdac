@@ -8,7 +8,9 @@
     "jupyterlab-extension",
     "JACDAC",
     "embedded",
-    "TinyML"
+    "TinyML",
+    "TensorFlow",
+    "TensorFlow Lite"
   ],
   "homepage": "https://github.com/microsoft/jupyter-jacdac",
   "bugs": {

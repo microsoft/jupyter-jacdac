@@ -1,4 +1,1 @@
-set -ex
-
-# Import jacdac
 jupyter labextension install jupyter-jacdac
