@@ -1,6 +1,6 @@
 # jupyter-jacdac
 
-![Github Actions Status](https://github.com/microsoft/jupyter-jacdac/workflows/Build/badge.svg)
+[![Github Actions Status](https://github.com/microsoft/jupyter-jacdac/workflows/Build/badge.svg)](https://github.com/microsoft/jupyter-jacdac/actions?query=workflow%3A%22Build+package%22)
 
 This project contains a [JACDAC](https://microsoft.github.io/jacdac-ts) extension for [Jupyter Lab](https://jupyter.org/).
 The extension allows to collect data from embedded devices and push AI model back into them.
@@ -10,6 +10,8 @@ The extension allows to collect data from embedded devices and push AI model bac
 * JupyterLab >= 2.0
 
 ## Install
+
+The extensions package is hosted on [NPMJS](https://www.npmjs.com/package/jupyter-jacdac).
 
 ```bash
 jupyter labextension install jupyter-jacdac
