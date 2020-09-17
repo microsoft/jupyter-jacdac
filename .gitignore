@@ -4,3 +4,4 @@ lib
 .ipynb_checkpoints
 *.ipynb
 data
+.local
