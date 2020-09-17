@@ -32,7 +32,7 @@ The extension essentially loads https://microsoft.github.io/jacdac-ts and intera
 
 The `jlpm` command is JupyterLab's pinned version of
 [yarn](https://yarnpkg.com/) that is installed with JupyterLab. You may use
-`yarn` or `npm` in lieu of `jlpm` below.
+`yarn` in lieu of `jlpm` below.
 
 ```bash
 # Clone the repo to your local environment
