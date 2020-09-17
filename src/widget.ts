@@ -152,7 +152,7 @@ export class JACDACWidget extends IFrame {
         msg.source = "jacdac"
         const url = new URL(this.options.url)
         const target = `${url.protocol}${url.host}`
-        this.iframe.contentWindow.postMessage(msg, target)
+        this.iframe.contentWindow?.postMessage(msg, target)
         return Promise.resolve();
     }
 }
