@@ -34,8 +34,7 @@ const extension: JupyterFrontEndPlugin<void> = {
 
     // dark mode
     const updateDarkMode = () => {
-      if (!themeManager.theme) return;
-      const light = !!themeManager?.isLight(themeManager.theme)
+      const light = !!themeManager?.theme && themeManager.isLight(themeManager.theme)
       widget.postMessage(<IThemeMessage>{
         type: 'theme',
         data: {
