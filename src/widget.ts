@@ -1,5 +1,5 @@
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
-import { IFrame } from "@jupyterlab/apputils";
+import { IFrame, IThemeManager } from "@jupyterlab/apputils";
 import { Contents, ContentsManager } from '@jupyterlab/services';
 import { toArray } from '@lumino/algorithm';
 import { PathExt } from '@jupyterlab/coreutils'
@@ -56,6 +56,7 @@ export declare namespace JACDACWidget {
         url?: string;
         contents: ContentsManager,
         fileBrowserFactory: IFileBrowserFactory;
+        themeManager: IThemeManager;
     }
 }
 
@@ -79,12 +80,18 @@ export class JACDACWidget extends IFrame {
         this.handleMessage = this.handleMessage.bind(this)
         window.addEventListener('message', this.handleMessage, false)
 
-        this.url = `${this.options.url}/tools/collector`
+        this.setPath("tools/collector")
+        this.options.themeManager?.themeChanged.connect(() => this.updateDarkMode())
     }
 
     dispose() {
         super.dispose();
         window.removeEventListener('message', this.handleMessage)
+    }
+
+    setPath(path: string) {
+        path = PathExt.removeSlash(path)
+        this.url = `${this.options.url}/${path}`
     }
 
     get iframe(): HTMLIFrameElement {
@@ -113,8 +120,26 @@ export class JACDACWidget extends IFrame {
         }
     }
 
+    // dark mode
+    private updateDarkMode() {
+        const { themeManager } = this.options;
+        const light = !!themeManager?.theme && themeManager.isLight(themeManager.theme)
+        console.log(`update dark mode`, light)
+        this.postMessage(<IThemeMessage>{
+            type: 'theme',
+            data: {
+                type: light ? 'light' : 'dark'
+            }
+        })
+    }
+
     private handleStatusMessage(msg: IStatusMessage) {
         console.log(`jacdac: ${msg.data.status}`, msg.data)
+        switch(msg.data.status) {
+            case 'ready':
+                this.updateDarkMode()
+                break;
+        }
         this.sendAck(msg)
     }
 
