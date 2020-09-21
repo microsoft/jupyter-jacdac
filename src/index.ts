@@ -10,8 +10,9 @@ import { JACDACWidget } from './widget';
 export const PALETTE_CATEGORY = "JACDAC"
 export const COMMAND_COLLECTOR = 'jacdac:collector';
 export const COMMAND_UPDATER = 'jacdac:updater';
+export const COMMAND_PACKETS = 'jacdac:packets';
+export const COMMAND_TFLITE = 'jacdac:tflite';
 export const COMMAND_NAMER = 'jacdac:namer';
-export const COMMAND_PLAYER = 'jacdac:player';
 
 /**
  * Initialization data for the jacdac extension.
@@ -74,7 +75,8 @@ const extension: JupyterFrontEndPlugin<void> = {
     addCommand(COMMAND_COLLECTOR, "tools/collector", "Collect sensor data", "Record live data from sensors on the bus")
     addCommand(COMMAND_NAMER, "tools/namer", "Assign names to devices", "Identify devices to collect relevant data")
     addCommand(COMMAND_UPDATER, "tools/updater", "Check for firmware updates", "Check for firmware updates for your sensors")
-    addCommand(COMMAND_PLAYER, "tools/player", "Replay traces", "Replay packet traces recorded using a logic analyser")
+    addCommand(COMMAND_PACKETS, "tools/packets", "Analyze and replay packets", "Analyze packets or replay packet traces recorded using a logic analyser")
+    addCommand(COMMAND_TFLITE, "tools/tflite", "Deploy TensorFlow Lite models", "Deploy TFLite models to devices")    
   }
 }
 
