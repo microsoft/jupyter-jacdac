@@ -1,9 +1,10 @@
 import { JupyterFrontEnd, JupyterFrontEndPlugin } from '@jupyterlab/application';
 import { ICommandPalette, IThemeManager } from '@jupyterlab/apputils';
-
+import { ILauncher } from '@jupyterlab/launcher';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 import { Menu } from '@lumino/widgets';
+
 import { JACDACWidget } from './widget';
 
 export const PALETTE_CATEGORY = "JACDAC"
@@ -18,13 +19,15 @@ export const COMMAND_PLAYER = 'jacdac:player';
 const extension: JupyterFrontEndPlugin<void> = {
   id: 'jacdac',
   autoStart: true,
-  requires: [ICommandPalette, IMainMenu, IFileBrowserFactory, IThemeManager],
+  requires: [IFileBrowserFactory],
+  optional: [ICommandPalette, IMainMenu, IThemeManager, ILauncher],
   activate: (
     app: JupyterFrontEnd,
-    palette: ICommandPalette,
-    mainMenu: IMainMenu,
     fileBrowserFactory: IFileBrowserFactory,
-    themeManager: IThemeManager
+    palette: ICommandPalette | null,
+    mainMenu: IMainMenu | null,
+    themeManager: IThemeManager | null,
+    launcher: ILauncher | null
   ) => {
     const { commands, shell, serviceManager } = app;
     const { contents } = serviceManager
@@ -39,7 +42,7 @@ const extension: JupyterFrontEndPlugin<void> = {
     // menu
     const menu = new Menu({ commands });
     menu.title.label = 'JACDAC';
-    mainMenu.addMenu(menu, { rank: 80 });
+    mainMenu?.addMenu(menu, { rank: 80 });
 
     const addCommand = (id: string, path: string, label: string, caption: string) => {
       // open recorder
@@ -58,8 +61,13 @@ const extension: JupyterFrontEndPlugin<void> = {
             shell.activateById(widget.id);
           }
         });
-        palette.addItem({ command, category: PALETTE_CATEGORY });
-        menu.addItem({ command });
+        palette?.addItem({ command, category: PALETTE_CATEGORY });
+        menu?.addItem({ command });
+        launcher?.add({
+          command: command,
+          category: 'JACDAC',
+          rank: 1
+        });    
       }
     }
     
