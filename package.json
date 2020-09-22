@@ -90,7 +90,7 @@
       [
         "@semantic-release/exec",
         {
-          "pingBinder": "curl https://mybinder.org/v2/gh/microsoft/jupyter-jacdac/main?urlpath=lab"
+          "successCmd": "curl https://mybinder.org/v2/gh/microsoft/jupyter-jacdac/main?urlpath=lab"
         }
       ]
     ]
