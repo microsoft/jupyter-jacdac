@@ -16,5 +16,5 @@ dependencies:
   - partd
   - bokeh
   - dask
-  - tensorflow
-  - tensorflow-gpu
+  - tensorflow=2
+  - tensorflow-gpu=2
