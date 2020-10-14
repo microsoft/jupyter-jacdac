@@ -2,9 +2,9 @@ node_modules
 lib
 *.tsbuildinfo
 .ipynb_checkpoints
-*.ipynb
-data
 .local
 .jupyter
 .config
 .npm
+built
+logs
