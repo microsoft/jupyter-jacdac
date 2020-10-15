@@ -73,10 +73,10 @@ const extension: JupyterFrontEndPlugin<void> = {
     }
     
     addCommand(COMMAND_COLLECTOR, "tools/collector", "Collect sensor data", "Record live data from sensors on the bus")
-    addCommand(COMMAND_NAMER, "tools/namer", "Assign names to devices", "Identify devices to collect relevant data")
+    addCommand(COMMAND_NAMER, "tools/role-manager", "Assign names to devices", "Identify devices to collect relevant data")
     addCommand(COMMAND_UPDATER, "tools/updater", "Check for firmware updates", "Check for firmware updates for your sensors")
-    addCommand(COMMAND_PACKETS, "tools/packets", "Analyze and replay packets", "Analyze packets or replay packet traces recorded using a logic analyser")
-    addCommand(COMMAND_TFLITE, "tools/tflite", "Deploy TensorFlow Lite models", "Deploy TFLite models to devices")    
+    addCommand(COMMAND_PACKETS, "tools/packet-inspector", "Analyze and replay packets", "Analyze packets or replay packet traces recorded using a logic analyser")
+    addCommand(COMMAND_TFLITE, "tools/model-uploader", "Deploy TensorFlow Lite models", "Deploy TFLite models to devices")    
   }
 }
 
