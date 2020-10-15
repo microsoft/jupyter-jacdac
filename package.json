@@ -1,6 +1,6 @@
 {
   "name": "jupyter-jacdac",
-  "version": "1.0.12",
+  "version": "1.1.0",
   "description": "Connect to JACDAC devices from JupyterLab",
   "keywords": [
     "jupyter",
