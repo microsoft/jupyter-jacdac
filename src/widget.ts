@@ -75,7 +75,7 @@ export class JACDACWidget extends IFrame {
         if (/jddbg=1/.test(window.location.href))
             this.options.url = 'http://localhost:8000'
 
-        this.options.url = PathExt.removeSlash(this.options.url)
+        this.options.url = PathExt.removeSlash(this.options.url) + "?widget=1"
 
         this.handleMessage = this.handleMessage.bind(this)
         window.addEventListener('message', this.handleMessage, false)
