@@ -63,12 +63,12 @@ const extension: JupyterFrontEndPlugin<void> = {
           command: command,
           category: 'JACDAC',
           rank: 1
-        });    
+        });
       }
     }
-    
-    addCommand(COMMAND_COLLECTOR, "tools/collector", "JACDAC- Collect data", "Record live data from sensors on the bus")
-    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "JACDAC - Deploy models", "Deploy TFLite models to devices")    
+
+    addCommand(COMMAND_COLLECTOR, "tools/collector", "JACDAC - Collect data", "Record live data from sensors on the bus")
+    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "JACDAC - Deploy models", "Deploy TFLite models to devices")
 
     mainMenu.viewMenu.addGroup(group, 60);
   }
