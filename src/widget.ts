@@ -49,6 +49,19 @@ export interface ISaveTextMessage extends IMessage {
         data: string;
     }
 }
+
+export interface IFile {
+    name: string;
+    path: string;
+    size: number;
+}
+
+export interface IModelListMessage extends IMessage {
+    type: 'model-list',
+    data: {
+        models: IFile[];
+    }
+}
 /** End JACDAC protocol */
 
 export declare namespace JACDACWidget {
@@ -75,13 +88,15 @@ export class JACDACWidget extends IFrame {
         if (/jddbg=1/.test(window.location.href))
             this.options.url = 'http://localhost:8000'
 
-        this.options.url = PathExt.removeSlash(this.options.url) + "?widget=1"
+        this.options.url = PathExt.removeSlash(this.options.url)
 
         this.handleMessage = this.handleMessage.bind(this)
         window.addEventListener('message', this.handleMessage, false)
 
         this.setPath("tools/collector")
-        this.options.themeManager?.themeChanged.connect(() => this.updateDarkMode())
+        this.options.themeManager?.themeChanged.connect(() => this.updateDarkMode());
+        this.options.fileBrowserFactory.defaultBrowser.model.pathChanged.connect(() => this.updateModels())
+        this.options.fileBrowserFactory.defaultBrowser.model.refreshed.connect(() => this.updateModels())
     }
 
     dispose() {
@@ -91,7 +106,7 @@ export class JACDACWidget extends IFrame {
 
     setPath(path: string) {
         path = PathExt.removeSlash(path)
-        this.url = `${this.options.url}/${path}`
+        this.url = `${this.options.url}/${path}?widget=1`
     }
 
     get iframe(): HTMLIFrameElement {
@@ -133,9 +148,31 @@ export class JACDACWidget extends IFrame {
         })
     }
 
+    private updateModels() {
+        // scan current folder for .tflite files
+        const fileBrowserModel = this.options.fileBrowserFactory.defaultBrowser.model;
+        const models = toArray(fileBrowserModel.items())
+            .filter(fileModel => /\.tflite$/.test(fileModel.path))
+            .map(fileModel =>
+                ({
+                    name: fileModel.name,
+                    path: fileModel.path,
+                    size: fileModel.size
+                } as IFile)
+            )
+
+        console.log(`model-list`, fileBrowserModel.items(), models)
+        this.postMessage(<IModelListMessage>{
+            type: 'model-list',
+            data: {
+                models
+            }
+        })
+    }
+
     private handleStatusMessage(msg: IStatusMessage) {
         console.log(`jacdac: ${msg.data.status}`, msg.data)
-        switch(msg.data.status) {
+        switch (msg.data.status) {
             case 'ready':
                 this.updateDarkMode()
                 break;
