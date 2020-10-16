@@ -163,7 +163,7 @@ export class JACDACWidget extends IFrame {
         // scan current folder for .tflite files
         const fileBrowserModel = this.options.fileBrowserFactory.defaultBrowser.model;
         const models = toArray(fileBrowserModel.items())
-            .filter(fileModel => /\.tflite$/.test(fileModel.path))
+            .filter(fileModel => /\.(tflite|ml4f)$/.test(fileModel.path))
             .map(fileModel =>
                 ({
                     name: fileModel.name,
