@@ -150,7 +150,6 @@ export class JACDACWidget extends IFrame {
     private updateDarkMode() {
         const { themeManager } = this.options;
         const light = !!themeManager?.theme && themeManager.isLight(themeManager.theme)
-        console.log(`update dark mode`, light)
         this.postMessage(<IThemeMessage>{
             type: 'theme',
             data: {
@@ -180,7 +179,6 @@ export class JACDACWidget extends IFrame {
     }
 
     private handleStatusMessage(msg: IStatusMessage) {
-        console.log(`jacdac: ${msg.data.status}`, msg.data)
         switch (msg.data.status) {
             case 'ready':
                 this.updateDarkMode()
@@ -218,6 +216,7 @@ export class JACDACWidget extends IFrame {
         if (!msg.requireAck) return;
 
         this.postMessage({
+            type: "ack",
             ackId: msg.id,
             data: {
                 status: error ? "error" : "success",
