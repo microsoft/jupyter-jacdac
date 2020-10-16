@@ -54,12 +54,14 @@ export interface IFile {
     name: string;
     path: string;
     size: number;
+    mimetype: string;
 }
 
 export interface IModelListMessage extends IMessage {
     type: 'model-list',
     data: {
         models: IFile[];
+        inputConfigurations: IFile[];
     }
 }
 
@@ -161,8 +163,18 @@ export class JACDACWidget extends IFrame {
     private updateModels() {
         // scan current folder for .tflite files
         const fileBrowserModel = this.options.fileBrowserFactory.defaultBrowser.model;
-        const models = toArray(fileBrowserModel.items())
+        const files = toArray(fileBrowserModel.items());
+        const models = files
             .filter(fileModel => /\.(tflite|ml4f)$/.test(fileModel.path))
+            .map(fileModel =>
+                ({
+                    name: fileModel.name,
+                    path: fileModel.path,
+                    size: fileModel.size
+                } as IFile)
+            );
+        const inputConfigurations = files
+            .filter(fileModel => /\.jd\.json$/.test(fileModel.path))
             .map(fileModel =>
                 ({
                     name: fileModel.name,
@@ -173,7 +185,8 @@ export class JACDACWidget extends IFrame {
         this.postMessage(<IModelListMessage>{
             type: 'model-list',
             data: {
-                models
+                models,
+                inputConfigurations
             }
         })
     }
@@ -204,8 +217,10 @@ export class JACDACWidget extends IFrame {
     private async handleFileLoadMessage(msg: IFileLoadMessage) {
         const { path } = msg.data;
         const model = await this.options.contents.get(path, { content: true });
+        console.log("model", model)
         const content = model?.content;
-        this.sendAck(msg, { content }, !content && "file not found")
+        const mimetype = model?.mimetype;
+        this.sendAck(msg, { content, mimetype }, !content && "file not found")
     }
 
     private handleAck(msg: IAckMessage) {
