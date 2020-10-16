@@ -171,8 +171,6 @@ export class JACDACWidget extends IFrame {
                     size: fileModel.size
                 } as IFile)
             )
-
-        console.log(`model-list`, fileBrowserModel.items(), models)
         this.postMessage(<IModelListMessage>{
             type: 'model-list',
             data: {
