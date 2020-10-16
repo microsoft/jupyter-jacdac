@@ -108,10 +108,11 @@ export class JACDACWidget extends IFrame {
         this.handleMessage = this.handleMessage.bind(this)
         window.addEventListener('message', this.handleMessage, false)
 
-        this.setPath("tools/collector")
         this.options.themeManager?.themeChanged.connect(() => this.updateDarkMode());
         this.options.fileBrowserFactory.defaultBrowser.model.pathChanged.connect(() => this.updateModels())
         this.options.fileBrowserFactory.defaultBrowser.model.refreshed.connect(() => this.updateModels())
+
+        this.setPath("tools/collector")
     }
 
     dispose() {
