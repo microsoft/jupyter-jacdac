@@ -67,8 +67,8 @@ const extension: JupyterFrontEndPlugin<void> = {
       }
     }
 
-    addCommand(COMMAND_COLLECTOR, "tools/collector", "JACDAC - Collect data", "Record live data from sensors on the bus")
-    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "JACDAC - Deploy models", "Deploy TFLite models to devices")
+    addCommand(COMMAND_COLLECTOR, "tools/collector", "JACDAC - Collect data", "Record live data from sensors")
+    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "JACDAC - Deploy models", "Deploy ML models to embedded devices")
 
     mainMenu.viewMenu.addGroup(group, 60);
   }
