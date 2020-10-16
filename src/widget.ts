@@ -57,6 +57,11 @@ export interface IFile {
     mimetype: string;
 }
 
+export interface IFileContent {
+    content: any;
+    mimetype: string;
+}
+
 export interface IModelListMessage extends IMessage {
     type: 'model-list',
     data: {
@@ -220,7 +225,12 @@ export class JACDACWidget extends IFrame {
         console.log("model", model)
         const content = model?.content;
         const mimetype = model?.mimetype;
-        this.sendAck(msg, { content, mimetype }, !content && "file not found")
+        this.sendAck(msg,
+            {
+                content,
+                mimetype
+            } as IFileContent,
+            !content && "file not found")
     }
 
     private handleAck(msg: IAckMessage) {
@@ -245,7 +255,7 @@ export class JACDACWidget extends IFrame {
         msg.id = "jl:" + Math.random()
         msg.source = "jacdac"
         const url = new URL(this.options.url)
-        const target = `${url.protocol}${url.host}`
+        const target = `${url.protocol}//${url.host}`
         this.iframe.contentWindow?.postMessage(msg, target)
         return Promise.resolve();
     }
