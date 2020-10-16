@@ -62,6 +62,14 @@ export interface IModelListMessage extends IMessage {
         models: IFile[];
     }
 }
+
+export interface IFileLoadMessage extends IMessage {
+    type: 'file-load',
+    requireAck: true,
+    data: {
+        path: string;
+    }
+}
 /** End JACDAC protocol */
 
 export declare namespace JACDACWidget {
@@ -123,6 +131,9 @@ export class JACDACWidget extends IFrame {
                     break;
                 case 'save-text':
                     this.handleSaveTextMessage(msg as ISaveTextMessage)
+                    break;
+                case 'file-load':
+                    this.handleFileLoadMessage(msg as IFileLoadMessage)
                     break;
                 case 'ack':
                     this.handleAck(msg as IAckMessage);
@@ -194,11 +205,20 @@ export class JACDACWidget extends IFrame {
         this.sendAck(msg, undefined)
     }
 
+    private async handleFileLoadMessage(msg: IFileLoadMessage) {
+        const { path } = msg.data;
+        const model = await this.options.contents.get(path, { content: true });
+        const content = model?.content;
+        this.sendAck(msg, { content }, !content && "file not found")
+    }
+
     private handleAck(msg: IAckMessage) {
         console.log(`jacdac: ack`, msg)
     }
 
     private sendAck(msg: IMessage, data?: any, error?: any) {
+        if (!msg.requireAck) return;
+
         this.postMessage({
             ackId: msg.id,
             data: {
