@@ -1,10 +1,11 @@
 # jupyter-jacdac
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/microsoft/jupyter-jacdac/main?urlpath=lab)
-[![Github Actions Status](https://github.com/microsoft/jupyter-jacdac/workflows/Build/badge.svg)](https://github.com/microsoft/jupyter-jacdac/actions?query=workflow%3A%22Build+package%22)
 
 This project contains a [JACDAC](https://microsoft.github.io/jacdac-ts) extension for [Jupyter Lab](https://jupyter.org/).
 The extension allows to collect data from embedded devices and push ML model back into them.
+
+* More information at https://microsoft.github.io/jacdac-ts/tools/jupyterlab/
 
 ## Requirements
 
@@ -17,7 +18,6 @@ The extensions package is hosted on [NPMJS](https://www.npmjs.com/package/jupyte
 ```bash
 jupyter labextension install jupyter-jacdac
 ```
-
 ### Uninstall
 
 ```bash
