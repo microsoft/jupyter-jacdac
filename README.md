@@ -2,7 +2,7 @@
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/microsoft/jupyter-jacdac/main?urlpath=lab)
 
-This project contains a [JACDAC](https://microsoft.github.io/jacdac-ts) extension for [Jupyter Lab](https://jupyter.org/).
+This project contains a [Jacdac](https://aka.ms/jacdac) extension for [Jupyter Lab](https://jupyter.org/).
 The extension allows to collect data from embedded devices and push ML model back into them.
 
 * More information at https://microsoft.github.io/jacdac-ts/tools/jupyterlab/

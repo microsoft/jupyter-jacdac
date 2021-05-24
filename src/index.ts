@@ -4,10 +4,10 @@ import { ILauncher } from '@jupyterlab/launcher';
 import { IMainMenu } from '@jupyterlab/mainmenu';
 import { IFileBrowserFactory } from '@jupyterlab/filebrowser';
 
-import { JACDACWidget } from './widget';
+import { JacdacWidget } from './widget';
 import { Menu } from '@lumino/widgets';
 
-export const PALETTE_CATEGORY = "JACDAC"
+export const PALETTE_CATEGORY = "Jacdac"
 export const COMMAND_COLLECTOR = 'jacdac:collector';
 export const COMMAND_MODEL_UPLOADER = 'jacdac:model-uploader';
 
@@ -31,13 +31,13 @@ const extension: JupyterFrontEndPlugin<void> = {
     const { contents } = serviceManager
 
     // iframe host
-    const widget = new JACDACWidget({
+    const widget = new JacdacWidget({
       contents,
       fileBrowserFactory,
       themeManager
     });
 
-    // add JACDAC to view menu
+    // add Jacdac to view menu
     const group: Menu.IItemOptions[] = [];
 
     const addCommand = (id: string, path: string, label: string, caption: string) => {
@@ -61,14 +61,14 @@ const extension: JupyterFrontEndPlugin<void> = {
         group.push({ command });
         launcher?.add({
           command: command,
-          category: 'JACDAC',
+          category: 'Jacdac',
           rank: 1
         });
       }
     }
 
-    addCommand(COMMAND_COLLECTOR, "tools/collector", "JACDAC - Collect data", "Record live data from sensors")
-    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "JACDAC - Deploy models", "Deploy ML models to embedded devices")
+    addCommand(COMMAND_COLLECTOR, "tools/collector", "Jacdac - Collect data", "Record live data from sensors")
+    addCommand(COMMAND_MODEL_UPLOADER, "tools/model-uploader", "Jacdac - Deploy models", "Deploy ML models to embedded devices")
 
     mainMenu.viewMenu.addGroup(group, 60);
   }

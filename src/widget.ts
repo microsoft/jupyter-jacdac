@@ -4,7 +4,7 @@ import { Contents, ContentsManager } from '@jupyterlab/services';
 import { toArray } from '@lumino/algorithm';
 import { PathExt } from '@jupyterlab/coreutils'
 
-/** JACDAC IFrame Message protocol */
+/** Jacdac IFrame Message protocol */
 export interface IMessage {
     id?: string;
     source: 'jacdac',
@@ -77,9 +77,9 @@ export interface IFileLoadMessage extends IMessage {
         path: string;
     }
 }
-/** End JACDAC protocol */
+/** End Jacdac protocol */
 
-export declare namespace JACDACWidget {
+export declare namespace JacdacWidget {
     interface IOptions {
         url?: string;
         contents: ContentsManager,
@@ -88,13 +88,13 @@ export declare namespace JACDACWidget {
     }
 }
 
-export class JACDACWidget extends IFrame {
-    constructor(public readonly options: JACDACWidget.IOptions) {
+export class JacdacWidget extends IFrame {
+    constructor(public readonly options: JacdacWidget.IOptions) {
         super({
             referrerPolicy: 'no-referrer',
         })
         this.id = 'jacdac'
-        this.title.label = "JACDAC";
+        this.title.label = "Jacdac";
         this.iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-top-navigation allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms')
         this.iframe.setAttribute('allow', 'usb')
 
