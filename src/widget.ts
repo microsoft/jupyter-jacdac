@@ -98,7 +98,7 @@ export class JACDACWidget extends IFrame {
         this.iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-top-navigation allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms')
         this.iframe.setAttribute('allow', 'usb')
 
-        this.options.url = this.options?.url || 'https://microsoft.github.io/jacdac-ts';
+        this.options.url = this.options?.url || 'https://microsoft.github.io/jacdac-docs';
 
         if (/jddbg=1/.test(window.location.href))
             this.options.url = 'http://localhost:8000'
