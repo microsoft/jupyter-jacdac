@@ -82,7 +82,7 @@ function rotate(a: number, b: number, c: number, samples: number[][]) {
 }
 
 function rand(max: number) {
-    // TODO use something else?
+    // TODO: use something else?
     return Math.random() * max
 }
 
