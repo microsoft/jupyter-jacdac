@@ -1,5 +1,5 @@
-import fs = require('fs')
-import path = require('path')
+import fs = require("fs")
+import path = require("path")
 
 //import * as fs from 'fs'
 //import * as path from 'path'
@@ -9,16 +9,15 @@ const STEADY_TOLERANCE = 2
 const MIN_GESTURE_LEN = 20
 const MAX_GESTURE_ACC = 5
 
-
 // data format
-const NUM_SAMPLES = 50;
-const NUM_DIM = 3;
-const IMAGE_CHANNELS = 1;
+const NUM_SAMPLES = 50
+const NUM_DIM = 3
+const IMAGE_CHANNELS = 1
 
-const RAND_ROT = 0.2;
+const RAND_ROT = 0.2
 
 type SMap<T> = {
-    [x: string]: T;
+    [x: string]: T
 }
 function median(arr: number[]) {
     arr.sort((a, b) => a - b)
@@ -26,10 +25,8 @@ function median(arr: number[]) {
 }
 function dist(a: number[], b: number[]) {
     let sum = 0
-    if (a.length != b.length)
-        throw new Error("wrong size")
-    for (let i = 0; i < a.length; i++)
-        sum += Math.abs(a[i] - b[i])
+    if (a.length != b.length) throw new Error("wrong size")
+    for (let i = 0; i < a.length; i++) sum += Math.abs(a[i] - b[i])
     return sum
 }
 
@@ -48,11 +45,11 @@ function pickRandom<T>(arr: T[]) {
 }
 
 interface Range {
-    id: number;
-    preStart: number;
-    start: number;
-    stop: number;
-    postStop: number;
+    id: number
+    preStart: number
+    start: number
+    stop: number
+    postStop: number
 }
 
 function multiply(mat: number[][], vect: number[]) {
@@ -76,7 +73,7 @@ function rotate(a: number, b: number, c: number, samples: number[][]) {
     const rotmat = [
         [ca * cb, ca * sb * sg - sa * cg, ca * sb * cg + sa * sg],
         [sa * cb, sa * sb * sg + ca * cg, sa * sb * cg - ca * sg],
-        [-sb, cb * sg, cb * cg]
+        [-sb, cb * sg, cb * cg],
     ]
     return samples.map(s => multiply(rotmat, s))
 }
@@ -116,10 +113,8 @@ function parseCSV(src: string) {
 
     for (const line of src.split(/\r?\n/)) {
         const words = line.split(/,/)
-        if (header == null)
-            header = words
-        else
-            data.push(words.map(s => parseFloat(s)))
+        if (header == null) header = words
+        else data.push(words.map(s => parseFloat(s)))
     }
 
     return { header, data }
@@ -129,13 +124,10 @@ class DataProvider {
     private samples: number[][]
     ranges: Range[]
 
-    constructor(public csvurl: string, private id: number = null) {
-    }
-
+    constructor(public csvurl: string, private id: number = null) {}
 
     get className() {
-        if (this.id == null)
-            return "???"
+        if (this.id == null) return "???"
         return classNames[this.id]
     }
 
@@ -148,8 +140,8 @@ class DataProvider {
             this.ranges.push({
                 id: this.id,
                 preStart: off,
-                start: off + (len - midlen >> 1),
-                stop: off + (len + midlen >> 1),
+                start: off + ((len - midlen) >> 1),
+                stop: off + ((len + midlen) >> 1),
                 postStop: off + len,
             })
         }
@@ -167,8 +159,7 @@ class DataProvider {
         for (const obj of parsedCSV.data) {
             const vals = obj.slice(1)
             const bucketId = vals.map(v => Math.round(v * 5)).join(",")
-            if (!buckets[bucketId])
-                buckets[bucketId] = []
+            if (!buckets[bucketId]) buckets[bucketId] = []
             buckets[bucketId].push(vals)
             allsamples.push(vals)
             this.samples.push(vals.slice(0))
@@ -181,7 +172,10 @@ class DataProvider {
         const bids = Object.keys(buckets)
         bids.sort((a, b) => buckets[b].length - buckets[a].length)
         const topnum = buckets[bids[0]].length
-        const avgbuckets = bids.slice(0, 6).map(bid => buckets[bid]).filter(x => x.length > (topnum / 10))
+        const avgbuckets = bids
+            .slice(0, 6)
+            .map(bid => buckets[bid])
+            .filter(x => x.length > topnum / 10)
         const avgsamples: number[][] = []
         avgbuckets.forEach(a => a.forEach(b => avgsamples.push(b)))
         const med = [0, 1, 2].map(idx => median(avgsamples.map(a => a[idx])))
@@ -189,7 +183,12 @@ class DataProvider {
         const distances = allsamples.map(s => dist(med, s))
         const meddist = median(distances)
         const cutoff = meddist * STEADY_TOLERANCE
-        console.log("cutoff:", cutoff, "in cutoff %:", distances.filter(d => d < cutoff).length * 100 / distances.length)
+        console.log(
+            "cutoff:",
+            cutoff,
+            "in cutoff %:",
+            (distances.filter(d => d < cutoff).length * 100) / distances.length
+        )
 
         let acc = 0
         let lastbeg = -1
@@ -201,8 +200,7 @@ class DataProvider {
             sample.push(d > cutoff ? -1 : -2)
             if (d > cutoff) {
                 acc++
-                if (lastbeg == -1)
-                    lastbeg = idx
+                if (lastbeg == -1) lastbeg = idx
             } else {
                 if (acc) {
                     acc--
@@ -216,7 +214,7 @@ class DataProvider {
                                 preStart: prevEnd,
                                 start: Math.max(lastbeg - 3, 0),
                                 stop: idx,
-                                postStop: -1
+                                postStop: -1,
                             })
                         }
                         lastbeg = -1
@@ -236,12 +234,10 @@ class DataProvider {
 
     append(other: DataProvider) {
         let off = 0
-        if (!this.samples || !this.samples.length)
-            this.samples = other.samples
+        if (!this.samples || !this.samples.length) this.samples = other.samples
         else {
             off = this.samples.length
-            for (const s of other.samples)
-                this.samples.push(s)
+            for (const s of other.samples) this.samples.push(s)
         }
         if (!this.ranges) this.ranges = []
         for (const r of other.ranges) {
@@ -270,15 +266,17 @@ class DataProvider {
         return [r0, r1]
     }
 
-
     filterRanges() {
         const l0 = this.ranges.length
-        this.ranges = this.ranges.filter(r => r.stop - r.start < NUM_SAMPLES - 2)
+        this.ranges = this.ranges.filter(
+            r => r.stop - r.start < NUM_SAMPLES - 2
+        )
         const l1 = this.ranges.length
         let drop = l0 - l1
-        if (drop)
-            console.log(this.csvurl, `drop ${drop} too long`)
-        this.ranges = this.ranges.filter(r => r.postStop - r.preStart > NUM_SAMPLES + 2)
+        if (drop) console.log(this.csvurl, `drop ${drop} too long`)
+        this.ranges = this.ranges.filter(
+            r => r.postStop - r.preStart > NUM_SAMPLES + 2
+        )
         const l2 = this.ranges.length
         drop = l1 - l2
         if (drop)
@@ -291,8 +289,7 @@ class DataProvider {
         for (let i = 0; i < this.samples.length; ++i) {
             let best = 0
             for (const rng of this.ranges) {
-                if (rng.start <= i && i <= rng.stop)
-                    best = Math.max(best, 3)
+                if (rng.start <= i && i <= rng.stop) best = Math.max(best, 3)
                 else if (rng.preStart <= i && i <= rng.postStop)
                     best = Math.max(best, 0.5)
             }
@@ -328,7 +325,7 @@ class DataProvider {
 
     private rangeLabels(rng: Range) {
         if (rng === null) rng = { id: 0 } as any
-        return classNames.map((_, i) => rng.id == i ? 1 : 0)
+        return classNames.map((_, i) => (rng.id == i ? 1 : 0))
     }
 
     getSample() {
@@ -336,7 +333,7 @@ class DataProvider {
         const data = this.rangeSamples(rng)
         return {
             className: rng == null ? "noise" : classNames[rng.id],
-            data
+            data,
         }
     }
 }
@@ -354,11 +351,10 @@ data/ira/left0.csv
 data/ira/noise0.csv
 `
 
-const classNames = ['noise', 'punch', 'left', 'right'];
-
+const classNames = ["noise", "punch", "left", "right"]
 
 function mkdirP(thePath: string) {
-    if (thePath == "." || !thePath) return;
+    if (thePath == "." || !thePath) return
     if (!fs.existsSync(thePath)) {
         mkdirP(path.dirname(thePath))
         fs.mkdirSync(thePath)
@@ -405,7 +401,12 @@ async function run() {
         trainData.append(train)
         testData.append(test)
         validateData.append(validate)
-        console.log(d.className, test.ranges.length, train.ranges.length, validate.ranges.length)
+        console.log(
+            d.className,
+            test.ranges.length,
+            train.ranges.length,
+            validate.ranges.length
+        )
     }
 
     writeSet(trainData, 1000)
