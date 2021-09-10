@@ -96,12 +96,12 @@ export class JacdacWidget extends IFrame {
         this.id = 'jacdac'
         this.title.label = "Jacdac";
         this.iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-top-navigation allow-downloads allow-popups allow-popups-to-escape-sandbox allow-forms')
-        this.iframe.setAttribute('allow', 'usb')
+        this.iframe.setAttribute('allow', 'usb;camera;serial')
 
-        this.options.url = this.options?.url || 'https://microsoft.github.io/jacdac-docs';
+        this.options.url = this.options?.url || 'https://microsoft.github.io/jacdac-docs?hosted=1';
 
         if (/jddbg=1/.test(window.location.href))
-            this.options.url = 'http://localhost:8000'
+            this.options.url = 'http://localhost:8000?hosted1'
 
         this.options.url = PathExt.removeSlash(this.options.url)
 
