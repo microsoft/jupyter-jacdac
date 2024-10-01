@@ -1,3 +1,5 @@
+> NOTE: **Jacdac has moved to the organization https://github.com/jacdac**
+
 # jupyter-jacdac
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/microsoft/jupyter-jacdac/main?urlpath=lab)
